@@ -1,0 +1,132 @@
+<mvc:View
+    controllerName="products.controller.Cart"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+
+        <Page 
+            title="Cart"
+            showNavButton="true"
+            navButtonPress="onNavBack">
+
+        <content>
+
+            <!-- EXISTING UNDO -->
+            <MessageStrip
+                id="undoStrip"
+                text="Item removed"
+                type="Warning"
+                showCloseButton="true"
+                visible="false">
+
+                <link>
+                    <Link text="UNDO" press="onUndoDelete"/>
+                </link>
+
+            </MessageStrip>
+
+            <!-- EXISTING LIST -->
+            <List
+                items="{cart>/cartItems}"
+                noDataText="No items in cart">
+
+                <items>
+                    <CustomListItem>
+
+                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+
+                            <VBox width="50%">
+                                <Text text="{cart>ProductName}" />
+                                <Text text="Price: {cart>Price}" />
+                                <Text text="Qty: {cart>Quantity}" />
+
+                                <Text text="{
+                                    parts: [
+                                        { path: 'cart>Price' },
+                                        { path: 'cart>Quantity' }
+                                    ],
+                                    formatter: '.formatLineTotal'
+                                }"/>
+                            </VBox>
+
+                            <!-- EXISTING +/- -->
+                            <HBox alignItems="Center">
+                                <Button text="-" press="onDecrease"/>
+                                <Text text="{cart>Quantity}" width="30px" textAlign="Center"/>
+                                <Button text="+" press="onIncrease"/>
+                            </HBox>
+
+                            <!-- EXISTING DELETE -->
+                            <Button
+                                icon="sap-icon://delete"
+                                type="Reject"
+                                press="onRemove"/>
+
+                        </HBox>
+
+                    </CustomListItem>
+                </items>
+
+            </List>
+
+            <!-- ✅ ADDED BUY BUTTON (ONLY ADDITION) -->
+            <Button 
+                text="Buy Now"
+                type="Emphasized"
+                press="onOpenBuyDialog"
+                width="100%"
+                class="sapUiSmallMarginTop"/>
+
+        </content>
+
+        <!-- EXISTING FOOTER -->
+        <footer>
+            <Toolbar>
+                <ToolbarSpacer/>
+                <Title
+                    text="{
+                        path: 'cart>/cartItems',
+                        formatter: '.getGrandTotal'
+                    }"
+                    level="H2"
+                />
+            </Toolbar>
+        </footer>
+                <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="EXERCISE2" level="H2"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+
+    </Page>
+
+    <!-- ✅ ADDED BUY DIALOG -->
+    <Dialog id="buyDialog" title="Enter Delivery Details">
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+
+                <Label text="Address"/>
+                <Input value="{buy>/address}" placeholder="Enter Address"/>
+
+                <Label text="Pincode"/>
+                <Input value="{buy>/pincode}" type="Number"/>
+
+                <Label text="Mobile Number"/>
+                <Input value="{buy>/mobile}" type="Tel"/>
+
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button text="Buy" type="Emphasized" press="onConfirmBuy"/>
+        </beginButton>
+
+        <endButton>
+            <Button text="Cancel" press="onCloseBuyDialog"/>
+        </endButton>
+
+    </Dialog>
+
+</mvc:View>

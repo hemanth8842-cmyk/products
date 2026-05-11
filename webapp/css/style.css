@@ -1,0 +1,14 @@
+.appTitle {
+    font-size: 28px;
+    font-weight: bold;
+    color: #0a6ed1;
+}
+
+.appSubtitle {
+    font-size: 14px;
+    color: #6a6d70;
+}
+
+.sapMPage {
+    background: linear-gradient(to right, #f5f7fa, #e4ecf7);
+}

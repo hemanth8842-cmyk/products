@@ -1,0 +1,137 @@
+{
+  "_version": "1.84.0",
+  "sap.app": {
+    "id": "products",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.23.0",
+      "toolsId": "cb5d22cf-9801-4bef-bdc2-582a632d2bf7"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/V2/Northwind/Northwind.svc/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "2.0"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "online-shopping": {
+          "semanticObject": "online",
+          "action": "shopping",
+          "title": "{{online-shopping.flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.147.2",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "products.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {}
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "products.view",
+        "controlId": "app",
+        "controlAggregation": "pages"
+      },
+            "routes": [
+        {
+          "pattern": "",
+          "name": "master",
+          "target": "Master"
+        },
+        {
+          "pattern": "detail/{productId}",
+          "name": "detail",
+          "target": "Detail"
+        },
+        {
+          "pattern": "cart",
+          "name": "cart",
+          "target": "Cart"
+        }
+      ],
+      
+        "targets": {
+      "Master": {
+        "viewName": "Master"
+      },
+      "Detail": {
+        "viewName": "Detail"
+      },
+      "Cart": {
+        "viewName": "Cart"
+      }
+    }
+    },
+    "rootView": {
+      "viewName": "products.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

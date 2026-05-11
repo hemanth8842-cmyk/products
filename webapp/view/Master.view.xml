@@ -1,0 +1,114 @@
+<mvc:View
+    controllerName="products.controller.Master"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page>
+
+        <!-- ✅ KEEP ONLY ONE HEADER -->
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="EXERCISE2" level="H2"/>
+                </contentMiddle>
+            </Bar>
+        </customHeader>
+
+        <!-- SEARCH + CART -->
+        <subHeader>
+            <Bar>
+
+                <contentLeft>
+                    <Select id="filterType" selectedKey="name" width="120px">
+                        <items>
+                            <core:Item key="name" text="Name"/>
+                            <core:Item key="price" text="Price"/>
+                        </items>
+                    </Select>
+                </contentLeft>
+
+                <contentMiddle>
+                    <SearchField 
+                        width="400px"
+                        placeholder="Search..."
+                        liveChange="onSearch"/>
+                </contentMiddle>
+
+                <contentRight>
+                    <Button 
+                        icon="sap-icon://cart"
+                        text="{
+                            path: 'cart>/cartItems',
+                            formatter: '.getCartCount'
+                        }"
+                        press="onGoToCart"/>
+                </contentRight>
+
+            </Bar>
+        </subHeader>
+
+        <!-- PRODUCT LIST -->
+        <content>
+            <List id="productList" items="{/Products}">
+
+                <items>
+                    <CustomListItem press="onItemPress" type="Active">
+
+                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
+
+                            <HBox width="65%" alignItems="Center" gap="10px">
+
+                                <Image 
+                                    src="{
+                                        path: 'ProductID',
+                                        formatter: '.getProductImage'
+                                    }"
+                                    width="60px"
+                                    height="60px"/>
+
+                                <VBox>
+                                    <Text text="{ProductName}" />
+                                    <Text text="Price: ${UnitPrice}" />
+                                    <Text text="Stock: {UnitsInStock}" />
+                                </VBox>
+
+                            </HBox>
+
+                            <!-- ✅ BUTTON (NO CHANGE) -->
+                            <Button 
+                                type="Emphasized"
+                                text="{
+                                    parts:[{path:'ProductID'}],
+                                    formatter: '.getCartButtonText'
+                                }"
+                                press="onAddToCartPress"/>
+
+                        </HBox>
+
+                    </CustomListItem>
+                </items>
+
+            </List>
+        </content>
+
+        <!-- FOOTER -->
+        <footer>
+            <Bar visible="{= ${cart>/cartItems}.length > 0 }">
+
+                <contentMiddle>
+                    <Button 
+                        type="Emphasized"
+                        text="{
+                            path:'cart>/cartItems',
+                            formatter:'.getCartSummary'
+                        }"
+                        press="onGoToCart"/>
+                </contentMiddle>
+
+            </Bar>
+        </footer>
+
+    </Page>
+
+</mvc:View>

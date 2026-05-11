@@ -1,0 +1,77 @@
+<mvc:View
+    controllerName="products.controller.Detail"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <Page title="Product Details" showNavButton="true" navButtonPress="onBack">
+
+        <content>
+
+            <VBox class="sapUiSmallMargin">
+
+                <!-- HEADER CARD -->
+                <ObjectHeader
+                    title="{ProductName}"
+                    number="{UnitPrice}"
+                    numberUnit="$"
+                    intro="Product Overview"
+                    class="sapUiSmallMarginBottom"/>
+
+                <!-- MAIN CARD -->
+                <HBox justifyContent="SpaceBetween">
+
+                    <!-- LEFT SIDE -->
+                    <VBox class="sapUiSmallMargin">
+
+                        <ObjectStatus
+                            title="Product ID"
+                            text="{ProductID}" />
+
+                        <ObjectStatus
+                            title="Category ID"
+                            text="{CategoryID}" />
+
+                        <ObjectStatus
+                            title="Supplier ID"
+                            text="{SupplierID}" />
+
+                        <ObjectStatus
+                            title="Quantity"
+                            text="{QuantityPerUnit}" />
+
+                    </VBox>
+
+                    <!-- RIGHT SIDE -->
+                    <VBox class="sapUiSmallMargin">
+
+                        <ObjectStatus
+                            title="Stock"
+                            text="{UnitsInStock}"
+                            state="Success" />
+
+                        <ObjectStatus
+                            title="On Order"
+                            text="{UnitsOnOrder}"
+                            state="Warning" />
+
+                        <ObjectStatus
+                            title="Reorder Level"
+                            text="{ReorderLevel}"
+                            state="Error" />
+
+                        <ObjectStatus
+                            title="Discontinued"
+                            text="{Discontinued}"
+                            state="None" />
+
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+
+        </content>
+
+    </Page>
+</mvc:View>
