@@ -3,14 +3,28 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m">
 
-        <Page 
-            title="Cart"
-            showNavButton="true"
-            navButtonPress="onNavBack">
+    <Page
+        title="Cart"
+        showNavButton="true"
+        navButtonPress="onNavBack">
 
+        <!-- CUSTOM HEADER -->
+        <customHeader>
+            <Bar>
+
+                <contentMiddle>
+                    <Title
+                        text="EXERCISE2"
+                        level="H2"/>
+                </contentMiddle>
+
+            </Bar>
+        </customHeader>
+
+        <!-- PAGE CONTENT -->
         <content>
 
-            <!-- EXISTING UNDO -->
+            <!-- UNDO MESSAGE -->
             <MessageStrip
                 id="undoStrip"
                 text="Item removed"
@@ -19,43 +33,68 @@
                 visible="false">
 
                 <link>
-                    <Link text="UNDO" press="onUndoDelete"/>
+                    <Link
+                        text="UNDO"
+                        press="onUndoDelete"/>
                 </link>
 
             </MessageStrip>
 
-            <!-- EXISTING LIST -->
+            <!-- CART LIST -->
             <List
                 items="{cart>/cartItems}"
                 noDataText="No items in cart">
 
                 <items>
+
                     <CustomListItem>
 
-                        <HBox justifyContent="SpaceBetween" alignItems="Center">
+                        <HBox
+                            justifyContent="SpaceBetween"
+                            alignItems="Center"
+                            width="100%">
 
+                            <!-- PRODUCT DETAILS -->
                             <VBox width="50%">
-                                <Text text="{cart>ProductName}" />
-                                <Text text="Price: {cart>Price}" />
-                                <Text text="Qty: {cart>Quantity}" />
 
-                                <Text text="{
-                                    parts: [
-                                        { path: 'cart>Price' },
-                                        { path: 'cart>Quantity' }
-                                    ],
-                                    formatter: '.formatLineTotal'
-                                }"/>
+                                <Text text="{cart>ProductName}" />
+
+                                <Text
+                                    text="Price: {cart>Price}" />
+
+                                <Text
+                                    text="Qty: {cart>Quantity}" />
+
+                                <Text
+                                    text="{
+                                        parts:[
+                                            {path:'cart>Price'},
+                                            {path:'cart>Quantity'}
+                                        ],
+                                        formatter: '.formatLineTotal'
+                                    }"/>
+
                             </VBox>
 
-                            <!-- EXISTING +/- -->
+                            <!-- QUANTITY BUTTONS -->
                             <HBox alignItems="Center">
-                                <Button text="-" press="onDecrease"/>
-                                <Text text="{cart>Quantity}" width="30px" textAlign="Center"/>
-                                <Button text="+" press="onIncrease"/>
+
+                                <Button
+                                    text="-"
+                                    press="onDecrease"/>
+
+                                <Text
+                                    text="{cart>Quantity}"
+                                    width="30px"
+                                    textAlign="Center"/>
+
+                                <Button
+                                    text="+"
+                                    press="onIncrease"/>
+
                             </HBox>
 
-                            <!-- EXISTING DELETE -->
+                            <!-- DELETE BUTTON -->
                             <Button
                                 icon="sap-icon://delete"
                                 type="Reject"
@@ -64,12 +103,13 @@
                         </HBox>
 
                     </CustomListItem>
+
                 </items>
 
             </List>
 
-            <!-- ✅ ADDED BUY BUTTON (ONLY ADDITION) -->
-            <Button 
+            <!-- BUY BUTTON -->
+            <Button
                 text="Buy Now"
                 type="Emphasized"
                 press="onOpenBuyDialog"
@@ -78,53 +118,72 @@
 
         </content>
 
-        <!-- EXISTING FOOTER -->
+        <!-- FOOTER -->
         <footer>
-            <Toolbar>
+
+            <Toolbar class="cartSummaryBar">
+
                 <ToolbarSpacer/>
-                <Title
+
+                <Text
                     text="{
-                        path: 'cart>/cartItems',
-                        formatter: '.getGrandTotal'
+                        path:'cart>/cartItems',
+                        formatter: '.getCartSummary'
                     }"
-                    level="H2"
-                />
+                    class="cartSummaryText"/>
+
             </Toolbar>
+
         </footer>
-                <customHeader>
-            <Bar>
-                <contentMiddle>
-                    <Title text="EXERCISE2" level="H2"/>
-                </contentMiddle>
-            </Bar>
-        </customHeader>
 
     </Page>
 
-    <!-- ✅ ADDED BUY DIALOG -->
-    <Dialog id="buyDialog" title="Enter Delivery Details">
+    <!-- BUY DIALOG -->
+    <Dialog
+        id="buyDialog"
+        title="Enter Delivery Details">
 
         <content>
+
             <VBox class="sapUiSmallMargin">
 
                 <Label text="Address"/>
-                <Input value="{buy>/address}" placeholder="Enter Address"/>
+
+                <Input
+                    value="{buy>/address}"
+                    placeholder="Enter Address"/>
 
                 <Label text="Pincode"/>
-                <Input value="{buy>/pincode}" type="Number"/>
+
+                <Input
+                    value="{buy>/pincode}"
+                    type="Number"/>
 
                 <Label text="Mobile Number"/>
-                <Input value="{buy>/mobile}" type="Tel"/>
+
+                <Input
+                    value="{buy>/mobile}"
+                    type="Tel"/>
 
             </VBox>
+
         </content>
 
         <beginButton>
-            <Button text="Buy" type="Emphasized" press="onConfirmBuy"/>
+
+            <Button
+                text="Buy"
+                type="Emphasized"
+                press="onConfirmBuy"/>
+
         </beginButton>
 
         <endButton>
-            <Button text="Cancel" press="onCloseBuyDialog"/>
+
+            <Button
+                text="Cancel"
+                press="onCloseBuyDialog"/>
+
         </endButton>
 
     </Dialog>

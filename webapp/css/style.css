@@ -1,14 +1,412 @@
-.appTitle {
-    font-size: 28px;
-    font-weight: bold;
-    color: #0a6ed1;
+/* =========================
+   HULK HEADER
+========================= */
+
+.hulkHeaderBar {
+    background: #000000 !important;
+    height: 80px !important;
+    border-bottom: 3px solid #39ff14;
+    box-shadow: 0 0 20px #39ff14;
 }
 
-.appSubtitle {
-    font-size: 14px;
-    color: #6a6d70;
+/* HULK TITLE */
+
+.hulkTitle {
+    color: #ffffff !important;
+    font-size: 34px !important;
+    font-weight: bold !important;
+    text-shadow: 0 0 15px #39ff14;
+    line-height: 80px !important;
 }
+
+/* HULK LOGO */
+
+.hulkLogo {
+    width: 38px;
+    height: 38px;
+    background: #39ff14;
+    border-radius: 50%;
+    border: 2px solid #145214;
+    box-shadow: 0 0 10px #39ff14;
+}
+
+/* EYES */
+
+.hulkEye {
+    width: 5px;
+    height: 5px;
+    background: #111111;
+    border-radius: 50%;
+}
+
+/* MOUTH */
+
+.hulkMouth {
+    width: 14px;
+    height: 2px;
+    background: #111111;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+/* BLINK */
+
+.blinkEye {
+    animation: blinkAnimation 3s infinite;
+}
+
+@keyframes blinkAnimation {
+
+    0% {
+        transform: scaleY(1);
+    }
+
+    45% {
+        transform: scaleY(1);
+    }
+
+    50% {
+        transform: scaleY(0.1);
+    }
+
+    55% {
+        transform: scaleY(1);
+    }
+
+    100% {
+        transform: scaleY(1);
+    }
+}
+
+/* =========================
+   OFFER CAROUSEL
+========================= */
+
+.offerCarousel {
+    border-bottom: 3px solid #39ff14;
+    box-shadow: 0 0 20px #39ff14;
+}
+
+/* OFFER TEXT */
+
+.offerMainText {
+    color: #ffffff !important;
+    font-size: 52px !important;
+    font-weight: bold !important;
+
+    text-shadow:
+        0 0 10px rgba(0,0,0,0.5),
+        0 0 20px rgba(0,0,0,0.4);
+}
+
+.offerSubText {
+    color: #ffffff !important;
+    font-size: 34px !important;
+    font-weight: bold !important;
+    margin-top: 10px;
+}
+
+.offerSmallText {
+    color: #ffffff !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+    margin-top: 10px;
+}
+
+/* BANNER 1 */
+
+.offerBanner1 {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,120,0,0.95),
+            rgba(255,180,0,0.85)
+        );
+}
+
+/* BANNER 2 */
+
+.offerBanner2 {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255,0,80,0.95),
+            rgba(255,120,120,0.85)
+        );
+}
+
+/* BANNER 3 */
+
+.offerBanner3 {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,120,255,0.95),
+            rgba(0,220,255,0.85)
+        );
+}
+
+/* BANNER 4 */
+
+.offerBanner4 {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,180,60,0.95),
+            rgba(80,255,120,0.85)
+        );
+}
+
+/* CAROUSEL DOTS */
+
+.sapMCrslBulleted span {
+    background: #ffffff !important;
+}
+
+/* CAROUSEL ARROWS */
+
+.sapMCrslPrev,
+.sapMCrslNext {
+    color: #ffffff !important;
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+/* PAGE */
 
 .sapMPage {
-    background: linear-gradient(to right, #f5f7fa, #e4ecf7);
+    background: linear-gradient(
+        135deg,
+        #0f0f0f,
+        #1c1c1c,
+        #2a2a2a
+    ) !important;
+}
+
+/* SUB HEADER */
+
+.sapMIBar {
+    background: #0f0f0f !important;
+    border-bottom: 2px solid #39ff14 !important;
+}
+
+/* PRODUCT DETAILS HEADING */
+
+.sapMBarTitle {
+    color: #ffffff !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+}
+
+/* BACK BUTTON */
+
+.sapMBtnBack .sapMBtnIcon {
+    color: #39ff14 !important;
+}
+
+/* LIST */
+
+.sapMList {
+    background: transparent !important;
+}
+
+/* LIST ITEMS */
+
+.sapMLIB {
+    background: rgba(255, 255, 255, 0.04) !important;
+    border-bottom: 1px solid rgba(57, 255, 20, 0.2) !important;
+    margin-bottom: 4px;
+    border-radius: 10px;
+}
+
+/* TEXT */
+
+.sapMText {
+    color: #ffffff !important;
+}
+
+/* SEARCH FIELD */
+
+.sapMSF {
+    background: #1aff00 !important;
+    border: 1px solid #39ff14 !important;
+    border-radius: 10px !important;
+}
+
+/* SEARCH INPUT */
+
+.sapMSFI {
+    color: #000000 !important;
+    background: #1aff00 !important;
+    font-weight: bold;
+}
+
+/* SEARCH ICON */
+
+.sapMSFB {
+    background: #1aff00 !important;
+    color: #000000 !important;
+}
+
+/* SELECT */
+
+.sapMSlt {
+    background: #1aff00 !important;
+    border: 1px solid #39ff14 !important;
+    border-radius: 8px !important;
+    color: #000000 !important;
+}
+
+/* SELECT LABEL */
+
+.sapMSltLabel {
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+/* FILTER BUTTONS */
+
+.filterIconBtn .sapMBtnInner {
+    background: #111111 !important;
+    border: 1px solid #39ff14 !important;
+    border-radius: 8px !important;
+}
+
+.filterIconBtn .sapMBtnIcon {
+    color: #39ff14 !important;
+}
+
+/* BUTTONS */
+
+.sapMBtnInner {
+    border-radius: 8px !important;
+}
+
+/* ADD TO CART */
+
+.sapMBtnEmphasized {
+    background: #39ff14 !important;
+    border-color: #39ff14 !important;
+    color: #000000 !important;
+    font-weight: bold;
+}
+
+/* FOOTER */
+
+.sapMFooter-CTX {
+    background: #111111 !important;
+}
+
+/* DIALOG */
+
+.sapMDialog {
+    background: #1a1a1a !important;
+}
+
+/* INPUT */
+
+.sapMInputBaseInner {
+    background: #1f1f1f !important;
+    color: #ffffff !important;
+    border: 1px solid #39ff14 !important;
+}
+
+/* LABEL */
+
+.sapMLabel {
+    color: #39ff14 !important;
+}
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.loginButton .sapMBtnInner {
+    background: #111111 !important;
+    border: 1px solid #39ff14 !important;
+    border-radius: 8px !important;
+}
+
+/* LOGIN TEXT */
+
+.loginButton .sapMBtnContent {
+    color: #ffffff !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+}
+
+/* LOGIN HOVER */
+
+.loginButton .sapMBtnInner:hover {
+    background: #39ff14 !important;
+}
+
+.loginButton .sapMBtnInner:hover .sapMBtnContent {
+    color: #000000 !important;
+}
+
+/* =========================
+   PRODUCT DETAILS PAGE
+========================= */
+
+.sapMOHTitle h1,
+.sapMOHTitleDiv {
+    color: #ffffff !important;
+    font-size: 28px !important;
+    font-weight: bold !important;
+}
+
+.sapMOHNumber,
+.sapMOHNumberUnit {
+    color: #39ff14 !important;
+    font-weight: bold !important;
+}
+
+.sapMOIntro {
+    color: #39ff14 !important;
+}
+
+.sapMObjStatusText,
+.sapMObjStatusTitle {
+    color: #ffffff !important;
+    font-size: 15px !important;
+}
+
+.sapMVBox,
+.sapMHBox {
+    color: #ffffff !important;
+}
+
+/* DETAIL CARD */
+
+.sapMPage section {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid rgba(57, 255, 20, 0.2);
+}
+
+/* CART SUMMARY */
+
+.cartSummaryBar {
+    background: #111111 !important;
+    border-top: 2px solid #39ff14 !important;
+}
+
+.cartSummaryText {
+    color: #ffffff !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+}
+
+/* BUY BUTTON */
+
+.buyNowBtn .sapMBtnInner {
+    background: #39ff14 !important;
+    border: none !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
 }

@@ -11,68 +11,104 @@ sap.ui.define([
         _lastDeletedItem: null,
         _lastDeletedIndex: null,
 
-        // ✅ NEW: Load cart from localStorage
+        // LOAD CART FROM LOCAL STORAGE
         onInit: function () {
+
             var oModel = this.getOwnerComponent().getModel("cart");
 
             var savedCart = localStorage.getItem("cartItems");
+
             if (savedCart) {
                 oModel.setProperty("/cartItems", JSON.parse(savedCart));
             }
         },
 
-        // ✅ NEW: Save cart to localStorage
+        // SAVE CART
         _saveCart: function () {
+
             var oModel = this.getView().getModel("cart");
+
             var aItems = oModel.getProperty("/cartItems");
-            localStorage.setItem("cartItems", JSON.stringify(aItems));
+
+            localStorage.setItem(
+                "cartItems",
+                JSON.stringify(aItems)
+            );
         },
 
+        // NAV BACK
         onNavBack: function () {
-            this.getOwnerComponent().getRouter().navTo("master");
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("master");
         },
 
+        // INCREASE QTY
         onIncrease: function (oEvent) {
-            var oContext = oEvent.getSource().getBindingContext("cart");
+
+            var oContext = oEvent.getSource()
+                .getBindingContext("cart");
+
             var oItem = oContext.getObject();
 
-            // ✅ NEW: Stock Validation
+            // STOCK VALIDATION
             if (oItem.Quantity >= oItem.UnitsInStock) {
+
                 MessageToast.show("Stock limit reached");
                 return;
             }
 
             if (oItem.Quantity < 6) {
+
                 oItem.Quantity++;
+
             } else {
+
                 MessageToast.show("Max 6 allowed");
             }
 
             oContext.getModel().refresh(true);
-            this._saveCart(); // NEW
+
+            this._saveCart();
         },
 
+        // DECREASE QTY
         onDecrease: function (oEvent) {
-            var oContext = oEvent.getSource().getBindingContext("cart");
+
+            var oContext = oEvent.getSource()
+                .getBindingContext("cart");
+
             var oItem = oContext.getObject();
 
             if (oItem.Quantity > 1) {
+
                 oItem.Quantity--;
+
             } else {
+
                 this.onRemove(oEvent);
                 return;
             }
 
             oContext.getModel().refresh(true);
-            this._saveCart(); // NEW
+
+            this._saveCart();
         },
 
+        // REMOVE ITEM
         onRemove: function (oEvent) {
-            var oContext = oEvent.getSource().getBindingContext("cart");
+
+            var oContext = oEvent.getSource()
+                .getBindingContext("cart");
+
             var oModel = oContext.getModel();
+
             var aItems = oModel.getProperty("/cartItems") || [];
 
-            var iIndex = oContext.getPath().split("/").pop();
+            var iIndex = oContext.getPath()
+                .split("/")
+                .pop();
 
             this._lastDeletedItem = aItems[iIndex];
             this._lastDeletedIndex = iIndex;
@@ -82,61 +118,87 @@ sap.ui.define([
             oModel.setProperty("/cartItems", aItems);
 
             if (this.byId("undoStrip")) {
-                this.byId("undoStrip").setVisible(true);
+
+                this.byId("undoStrip")
+                    .setVisible(true);
             }
 
             MessageToast.show("Item removed");
-            this._saveCart(); // NEW
+
+            this._saveCart();
         },
 
+        // UNDO DELETE
         onUndoDelete: function () {
-            if (!this._lastDeletedItem) return;
 
-            var oModel = this.getView().getModel("cart");
+            if (!this._lastDeletedItem) {
+                return;
+            }
+
+            var oModel = this.getView()
+                .getModel("cart");
+
             var aItems = oModel.getProperty("/cartItems") || [];
 
-            aItems.splice(this._lastDeletedIndex, 0, this._lastDeletedItem);
+            aItems.splice(
+                this._lastDeletedIndex,
+                0,
+                this._lastDeletedItem
+            );
 
             oModel.setProperty("/cartItems", aItems);
 
             if (this.byId("undoStrip")) {
-                this.byId("undoStrip").setVisible(false);
+
+                this.byId("undoStrip")
+                    .setVisible(false);
             }
 
             this._lastDeletedItem = null;
             this._lastDeletedIndex = null;
 
             MessageToast.show("Item restored");
-            this._saveCart(); // NEW
+
+            this._saveCart();
         },
 
+        // LINE TOTAL
         formatLineTotal: function (price, qty) {
+
             return (price && qty)
                 ? "Total: " + (price * qty).toFixed(2)
                 : "Total: 0.00";
         },
 
-        // ✅ UPDATED: Discount Logic ADDED (no removal)
-        getGrandTotal: function (items) {
+        // CART SUMMARY
+        getCartSummary: function (items) {
+
             if (!items || !items.length) {
                 return "Grand Total: 0.00";
             }
 
             var total = items.reduce(function (sum, item) {
+
                 return sum + (item.Price * item.Quantity);
+
             }, 0);
 
             var discount = 0;
 
-            // NEW: Discount based on quantity
+            // DISCOUNT LOGIC
             var totalQty = items.reduce(function (sum, item) {
+
                 return sum + item.Quantity;
+
             }, 0);
 
             if (totalQty >= 10) {
-                discount = total * 0.20; // 20%
+
+                discount = total * 0.20;
+
             } else if (totalQty >= 5) {
-                discount = total * 0.10; // 10%
+
+                discount = total * 0.10;
             }
 
             var finalTotal = total - discount;
@@ -146,33 +208,50 @@ sap.ui.define([
                 " | Pay: " + finalTotal.toFixed(2);
         },
 
-        // BUY FLOW
-
+        // BUY DIALOG
         onOpenBuyDialog: function () {
+
             var oModel = new JSONModel({
+
                 address: "",
                 pincode: "",
                 mobile: ""
+
             });
 
             this.getView().setModel(oModel, "buy");
+
             this.byId("buyDialog").open();
         },
 
+        // CLOSE DIALOG
         onCloseBuyDialog: function () {
+
             this.byId("buyDialog").close();
         },
 
+        // CONFIRM BUY
         onConfirmBuy: function () {
-            var oData = this.getView().getModel("buy").getData();
 
-            if (!oData.address || !oData.pincode || !oData.mobile) {
+            var oData = this.getView()
+                .getModel("buy")
+                .getData();
+
+            if (
+                !oData.address ||
+                !oData.pincode ||
+                !oData.mobile
+            ) {
+
                 MessageToast.show("Please fill all details");
                 return;
             }
 
             this.byId("buyDialog").close();
-            MessageBox.success("🎉 Order placed successfully!");
+
+            MessageBox.success(
+                "🎉 Order placed successfully!"
+            );
         }
 
     });

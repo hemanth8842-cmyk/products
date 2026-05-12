@@ -1,10 +1,12 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
+    "sap/ui/dom/includeStylesheet",
     "products/model/models"
-], (UIComponent, models) => {
+], function (UIComponent, includeStylesheet, models) {
     "use strict";
 
     return UIComponent.extend("products.Component", {
+
         metadata: {
             manifest: "json",
             interfaces: [
@@ -12,18 +14,24 @@ sap.ui.define([
             ]
         },
 
-      init: function () {
-    UIComponent.prototype.init.apply(this, arguments);
+        init: function () {
 
-    
-  var oCartModel = new sap.ui.model.json.JSONModel({
-    cartItems: []  
-});
+            // CALL PARENT INIT
+            UIComponent.prototype.init.apply(this, arguments);
 
-this.setModel(oCartModel, "cart");
-    this.setModel(oCartModel, "cart");
+            // LOAD CSS
+            includeStylesheet("css/style.css");
 
-    this.getRouter().initialize();
-}
+            // CART MODEL
+            var oCartModel = new sap.ui.model.json.JSONModel({
+                cartItems: []
+            });
+
+            this.setModel(oCartModel, "cart");
+
+            // INITIALIZE ROUTER
+            this.getRouter().initialize();
+        }
+
     });
 });

@@ -1,51 +1,204 @@
+// =========================
+// MASTER.CONTROLLER.JS
+// =========================
+
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/Sorter",
-    "sap/ui/model/json/JSONModel",
-    "sap/m/MessageToast"
-], function (Controller, Filter, FilterOperator, Sorter, JSONModel, MessageToast) {
+    "sap/m/MessageToast",
+    "sap/ui/model/json/JSONModel"
+], function (
+    Controller,
+    Filter,
+    FilterOperator,
+    Sorter,
+    MessageToast,
+    JSONModel
+) {
+
     "use strict";
 
     return Controller.extend("products.controller.Master", {
 
-        // ✅ INIT
+        // =========================
+        // INIT
+        // =========================
+
         onInit: function () {
 
-            var oCartModel = this.getOwnerComponent().getModel("cart");
+            var oCartModel =
+                this.getOwnerComponent().getModel("cart");
 
             if (!oCartModel) {
+
                 oCartModel = new JSONModel({
                     cartItems: []
                 });
-                this.getOwnerComponent().setModel(oCartModel, "cart");
+
+                this.getOwnerComponent()
+                    .setModel(oCartModel, "cart");
             }
         },
 
-        // 🔍 SEARCH
+        // =========================
+        // SHOW PRODUCTS
+        // =========================
+
+        onShowProducts: function () {
+
+            this.byId("productsSection")
+                .setVisible(true);
+
+            this.byId("cartSection")
+                .setVisible(false);
+
+            this.byId("profileSection")
+                .setVisible(false);
+        },
+
+        // =========================
+        // SHOW CART
+        // =========================
+
+        onShowCart: function () {
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("cart");
+        },
+
+        // =========================
+        // SHOW PROFILE / DETAIL
+        // =========================
+
+        onShowProfile: function () {
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("detail", {
+                    productId: 1
+                });
+        },
+
+        // =========================
+        // LOGIN BUTTON TEXT
+        // =========================
+
+        getLoginButtonText: function (sName) {
+
+            return sName || "Login";
+        },
+
+        // =========================
+        // OPEN LOGIN DIALOG
+        // =========================
+
+        onOpenLoginDialog: function () {
+
+            this.byId("loginDialog").open();
+        },
+
+        // =========================
+        // CLOSE LOGIN DIALOG
+        // =========================
+
+        onCloseLoginDialog: function () {
+
+            this.byId("loginDialog").close();
+        },
+
+        // =========================
+        // LOGIN
+        // =========================
+
+        onLogin: function () {
+
+            var sName =
+                this.byId("nameInput").getValue();
+
+            var sMobile =
+                this.byId("mobileInput").getValue();
+
+            if (!sName || !sMobile) {
+
+                MessageToast.show(
+                    "Enter Name and Mobile Number"
+                );
+
+                return;
+            }
+
+            var oUserModel =
+                this.getOwnerComponent().getModel("user");
+
+            if (!oUserModel) {
+
+                oUserModel = new JSONModel({
+                    name: ""
+                });
+
+                this.getOwnerComponent()
+                    .setModel(oUserModel, "user");
+            }
+
+            oUserModel.setProperty("/name", sName);
+
+            MessageToast.show("Login Successful");
+
+            this.byId("loginDialog").close();
+        },
+
+        // =========================
+        // SEARCH
+        // =========================
+
         onSearch: function (oEvent) {
 
-            var sValue = oEvent.getParameter("newValue");
-            var oList = this.byId("productList");
-            var oBinding = oList.getBinding("items");
+            var sValue =
+                oEvent.getParameter("newValue");
 
-            var sFilterType = this.byId("filterType").getSelectedKey();
+            var oList =
+                this.byId("productList");
+
+            var oBinding =
+                oList.getBinding("items");
+
+            var sFilterType =
+                this.byId("filterType")
+                    .getSelectedKey();
+
             var aFilters = [];
 
             if (sValue) {
 
+                // NAME FILTER
                 if (sFilterType === "name") {
+
                     aFilters.push(
-                        new Filter("ProductName", FilterOperator.Contains, sValue)
+                        new Filter(
+                            "ProductName",
+                            FilterOperator.Contains,
+                            sValue
+                        )
                     );
                 }
 
+                // PRICE FILTER
                 if (sFilterType === "price") {
-                    var fValue = parseFloat(sValue);
+
+                    var fValue =
+                        parseFloat(sValue);
+
                     if (!isNaN(fValue)) {
+
                         aFilters.push(
-                            new Filter("UnitPrice", FilterOperator.GE, fValue)
+                            new Filter(
+                                "UnitPrice",
+                                FilterOperator.GE,
+                                fValue
+                            )
                         );
                     }
                 }
@@ -53,65 +206,114 @@ sap.ui.define([
 
             oBinding.filter(aFilters);
 
+            // SORT PRICE
             if (sFilterType === "price") {
-                oBinding.sort(new Sorter("UnitPrice", false));
+
+                oBinding.sort(
+                    new Sorter(
+                        "UnitPrice",
+                        false
+                    )
+                );
+
             } else {
+
                 oBinding.sort(null);
             }
         },
 
-        // 🛒 ADD / GO TO CART
+        // =========================
+        // ADD TO CART
+        // =========================
+
         onAddToCartPress: function (oEvent) {
 
-            var oProduct = oEvent.getSource().getBindingContext().getObject();
+            var oProduct =
+                oEvent.getSource()
+                    .getBindingContext()
+                    .getObject();
 
-            var oCartModel = this.getOwnerComponent().getModel("cart");
-            var aItems = oCartModel.getProperty("/cartItems") || [];
+            var oCartModel =
+                this.getOwnerComponent()
+                    .getModel("cart");
 
-            var oItem = aItems.find(function (item) {
-                return item.ProductID === oProduct.ProductID;
-            });
+            var aItems =
+                oCartModel.getProperty("/cartItems") || [];
 
+            var oItem =
+                aItems.find(function (item) {
+
+                    return item.ProductID ===
+                        oProduct.ProductID;
+                });
+
+            // GO TO CART
             if (oItem) {
-                // 👉 GO TO CART
-                this.getOwnerComponent().getRouter().navTo("cart");
+
+                this.getOwnerComponent()
+                    .getRouter()
+                    .navTo("cart");
+
             } else {
 
-                // 👉 ADD TO CART
+                // ADD ITEM
                 aItems.push({
-                    ProductID: oProduct.ProductID,
-                    ProductName: oProduct.ProductName,
-                    Price: oProduct.UnitPrice,
+
+                    ProductID:
+                        oProduct.ProductID,
+
+                    ProductName:
+                        oProduct.ProductName,
+
+                    Price:
+                        oProduct.UnitPrice,
+
                     Quantity: 1
                 });
 
-                oCartModel.setProperty("/cartItems", aItems);
+                oCartModel.setProperty(
+                    "/cartItems",
+                    aItems
+                );
 
-                // 🔥 IMPORTANT → UI refresh
                 oCartModel.updateBindings(true);
 
-                MessageToast.show("Added to Cart");
+                MessageToast.show(
+                    "Added To Cart"
+                );
             }
         },
 
-        // 🔁 BUTTON TEXT FORMATTER
+        // =========================
+        // BUTTON TEXT FORMATTER
+        // =========================
+
         getCartButtonText: function (productId) {
 
-            var aItems = this.getOwnerComponent()
-                .getModel("cart")
-                .getProperty("/cartItems") || [];
+            var aItems =
+                this.getOwnerComponent()
+                    .getModel("cart")
+                    .getProperty("/cartItems") || [];
 
-            var oItem = aItems.find(function (item) {
-                return item.ProductID === productId;
-            });
+            var oItem =
+                aItems.find(function (item) {
 
-            return oItem ? "GO TO CART" : "ADD TO CART";
-        },  // ✅ VERY IMPORTANT COMMA
+                    return item.ProductID === productId;
+                });
 
-        // 🖼 IMAGE FORMATTER
+            return oItem
+                ? "GO TO CART"
+                : "ADD TO CART";
+        },
+
+        // =========================
+        // IMAGE FORMATTER
+        // =========================
+
         getProductImage: function (productId) {
 
             var mImages = {
+
                 1: "https://images.unsplash.com/photo-1587731556938-38755b4803a6?auto=format&fit=crop&w=400&q=80",
                 2: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?auto=format&fit=crop&w=400&q=80",
                 3: "https://images.unsplash.com/photo-1587049352851-8d4e89133924?auto=format&fit=crop&w=400&q=80",
@@ -174,52 +376,86 @@ sap.ui.define([
                 60: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=400&q=80"
             };
 
-            return mImages[productId] || "https://via.placeholder.com/60";
+            return mImages[productId] ||
+                "https://via.placeholder.com/60";
         },
 
-        // 🛒 CART COUNT
+        // =========================
+        // CART COUNT
+        // =========================
+
         getCartCount: function (aItems) {
 
-            if (!aItems) return "0 Items";
+            if (!aItems) {
+                return "0 Items";
+            }
 
             var total = 0;
 
             aItems.forEach(function (item) {
+
                 total += item.Quantity;
             });
 
             return total + " Items";
         },
 
-        // 🧾 FOOTER SUMMARY
+        // =========================
+        // FOOTER SUMMARY
+        // =========================
+
         getCartSummary: function (aItems) {
 
-            if (!aItems || aItems.length === 0) return "";
+            if (!aItems || aItems.length === 0) {
+                return "";
+            }
 
             var totalQty = 0;
             var totalPrice = 0;
 
             aItems.forEach(function (item) {
+
                 totalQty += item.Quantity;
-                totalPrice += item.Quantity * item.Price;
+
+                totalPrice +=
+                    item.Quantity * item.Price;
             });
 
-            return totalQty + " item  $" + totalPrice.toFixed(2);
+            return totalQty +
+                " item  $" +
+                totalPrice.toFixed(2);
         },
 
-        // 🔗 NAVIGATION
+        // =========================
+        // GO TO CART
+        // =========================
+
         onGoToCart: function () {
-            this.getOwnerComponent().getRouter().navTo("cart");
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("cart");
         },
+
+        // =========================
+        // ITEM PRESS
+        // =========================
 
         onItemPress: function (oEvent) {
 
-            var oContext = oEvent.getSource().getBindingContext();
-            var sProductId = oContext.getProperty("ProductID");
+            var oContext =
+                oEvent.getSource()
+                    .getBindingContext();
 
-            this.getOwnerComponent().getRouter().navTo("detail", {
-                productId: sProductId
-            });
+            var sProductId =
+                oContext.getProperty("ProductID");
+
+            this.getOwnerComponent()
+                .getRouter()
+                .navTo("detail", {
+
+                    productId: sProductId
+                });
         }
 
     });

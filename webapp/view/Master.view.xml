@@ -6,97 +6,444 @@
 
     <Page>
 
-        <!-- ✅ KEEP ONLY ONE HEADER -->
+        <!-- =========================
+             HEADER
+        ========================= -->
+
         <customHeader>
-            <Bar>
-                <contentMiddle>
-                    <Title text="EXERCISE2" level="H2"/>
-                </contentMiddle>
-            </Bar>
-        </customHeader>
 
-        <!-- SEARCH + CART -->
-        <subHeader>
-            <Bar>
+            <Bar class="hulkHeaderBar">
 
+                <!-- LEFT -->
                 <contentLeft>
-                    <Select id="filterType" selectedKey="name" width="120px">
-                        <items>
-                            <core:Item key="name" text="Name"/>
-                            <core:Item key="price" text="Price"/>
-                        </items>
-                    </Select>
                 </contentLeft>
 
+                <!-- CENTER -->
                 <contentMiddle>
-                    <SearchField 
-                        width="400px"
-                        placeholder="Search..."
-                        liveChange="onSearch"/>
-                </contentMiddle>
 
-                <contentRight>
-                    <Button 
-                        icon="sap-icon://cart"
-                        text="{
-                            path: 'cart>/cartItems',
-                            formatter: '.getCartCount'
-                        }"
-                        press="onGoToCart"/>
-                </contentRight>
+                    <HBox
+                        alignItems="Center"
+                        justifyContent="Center"
+                        width="100%">
 
-            </Bar>
-        </subHeader>
+                        <!-- HULK LOGO -->
+                        <VBox
+                            class="hulkLogo"
+                            justifyContent="Center"
+                            alignItems="Center">
 
-        <!-- PRODUCT LIST -->
-        <content>
-            <List id="productList" items="{/Products}">
+                            <!-- EYES -->
+                            <HBox justifyContent="Center">
 
-                <items>
-                    <CustomListItem press="onItemPress" type="Active">
+                                <VBox class="hulkEye blinkEye"></VBox>
 
-                        <HBox justifyContent="SpaceBetween" alignItems="Center" width="100%">
-
-                            <HBox width="65%" alignItems="Center" gap="10px">
-
-                                <Image 
-                                    src="{
-                                        path: 'ProductID',
-                                        formatter: '.getProductImage'
-                                    }"
-                                    width="60px"
-                                    height="60px"/>
-
-                                <VBox>
-                                    <Text text="{ProductName}" />
-                                    <Text text="Price: ${UnitPrice}" />
-                                    <Text text="Stock: {UnitsInStock}" />
-                                </VBox>
+                                <VBox
+                                    class="hulkEye blinkEye sapUiTinyMarginBegin"></VBox>
 
                             </HBox>
 
-                            <!-- ✅ BUTTON (NO CHANGE) -->
-                            <Button 
-                                type="Emphasized"
-                                text="{
-                                    parts:[{path:'ProductID'}],
-                                    formatter: '.getCartButtonText'
-                                }"
-                                press="onAddToCartPress"/>
+                            <!-- MOUTH -->
+                            <VBox class="hulkMouth"></VBox>
 
-                        </HBox>
+                        </VBox>
 
-                    </CustomListItem>
-                </items>
+                        <!-- HULK STORE -->
+                        <Text
+                            text="HULK STORE"
+                            class="hulkTitle sapUiSmallMarginBegin"/>
 
-            </List>
+                    </HBox>
+
+                </contentMiddle>
+
+                <!-- RIGHT LOGIN -->
+                <contentRight>
+
+                    <Button
+                        text="{
+                            path:'user>/name',
+                            formatter: '.getLoginButtonText'
+                        }"
+                        press="onOpenLoginDialog"
+                        type="Transparent"
+                        class="loginButton"/>
+
+                </contentRight>
+
+            </Bar>
+
+        </customHeader>
+
+        <!-- =========================
+             SUB HEADER
+        ========================= -->
+
+        <subHeader>
+
+            <Bar>
+
+                <!-- LEFT -->
+                <contentLeft>
+
+                    <HBox alignItems="Center">
+
+                        <!-- DROPDOWN -->
+                        <Select
+                            id="filterType"
+                            selectedKey="name"
+                            width="120px">
+
+                            <items>
+
+                                <core:Item
+                                    key="name"
+                                    text="Name"/>
+
+                                <core:Item
+                                    key="price"
+                                    text="Price"/>
+
+                            </items>
+
+                        </Select>
+
+                        <!-- FILTER -->
+                        <Button
+                            icon="sap-icon://filter"
+                            type="Transparent"
+                            tooltip="Filter"
+                            class="filterIconBtn sapUiSmallMarginBegin"/>
+
+                        <!-- SORT -->
+                        <Button
+                            icon="sap-icon://sort"
+                            type="Transparent"
+                            tooltip="Sort"
+                            class="filterIconBtn sapUiTinyMarginBegin"/>
+
+                        <!-- FAVORITE -->
+                        <Button
+                            icon="sap-icon://favorite"
+                            type="Transparent"
+                            tooltip="Favorite"
+                            class="filterIconBtn sapUiTinyMarginBegin"/>
+
+                    </HBox>
+
+                </contentLeft>
+
+                <!-- CENTER -->
+                <contentMiddle>
+
+                    <HBox
+                        alignItems="Center"
+                        justifyContent="Center">
+
+                        <!-- PRODUCTS -->
+                        <Button
+                            icon="sap-icon://home"
+                            type="Emphasized"
+                            class="sapUiTinyMarginEnd"
+                            press="onShowProducts"/>
+
+                        <!-- CART -->
+                        <Button
+                            icon="sap-icon://cart"
+                            type="Emphasized"
+                            class="sapUiTinyMarginEnd"
+                            press="onShowCart"/>
+
+                        <!-- PROFILE -->
+                        <Button
+                            icon="sap-icon://person-placeholder"
+                            type="Emphasized"
+                            press="onShowProfile"/>
+
+                    </HBox>
+
+                </contentMiddle>
+
+                <!-- RIGHT -->
+                <contentRight>
+
+                    <HBox alignItems="Center">
+
+                        <!-- SEARCH -->
+                        <SearchField
+                            width="300px"
+                            placeholder="Search..."
+                            liveChange="onSearch"/>
+
+                        <!-- CART -->
+                        <Button 
+                            icon="sap-icon://cart"
+                            text="{
+                                path: 'cart>/cartItems',
+                                formatter: '.getCartCount'
+                            }"
+                            press="onGoToCart"
+                            class="sapUiSmallMarginBegin"/>
+
+                    </HBox>
+
+                </contentRight>
+
+            </Bar>
+
+        </subHeader>
+
+        <!-- =========================
+             CONTENT
+        ========================= -->
+
+        <content>
+
+            <!-- =========================
+                 OFFER BANNERS
+            ========================= -->
+
+            <Carousel
+                id="offerCarousel"
+                height="260px"
+                width="100%"
+                loop="true"
+                showPageIndicator="true"
+                class="offerCarousel">
+
+                <!-- BANNER 1 -->
+
+                <HBox
+                    width="100%"
+                    height="260px"
+                    justifyContent="SpaceAround"
+                    alignItems="Center"
+                    class="offerBanner1">
+
+                    <VBox alignItems="Center">
+
+                        <Text
+                            text="🔥 GREAT SUMMER SALE 🔥"
+                            class="offerMainText"/>
+
+                        <Text
+                            text="UP TO 70% OFF"
+                            class="offerSubText"/>
+
+                        <Text
+                            text="Live Now On Hulk Store"
+                            class="offerSmallText"/>
+
+                    </VBox>
+
+                    <Image
+                        src="https://cdn-icons-png.flaticon.com/512/869/869636.png"
+                        width="180px"
+                        height="180px"/>
+
+                </HBox>
+
+                <!-- BANNER 2 -->
+
+                <HBox
+                    width="100%"
+                    height="260px"
+                    justifyContent="SpaceAround"
+                    alignItems="Center"
+                    class="offerBanner2">
+
+                    <VBox alignItems="Center">
+
+                        <Text
+                            text="⚡ FLASH DEALS ⚡"
+                            class="offerMainText"/>
+
+                        <Text
+                            text="BUY 1 GET 1 FREE"
+                            class="offerSubText"/>
+
+                        <Text
+                            text="Only Today"
+                            class="offerSmallText"/>
+
+                    </VBox>
+
+                    <Image
+                        src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png"
+                        width="180px"
+                        height="180px"/>
+
+                </HBox>
+
+                <!-- BANNER 3 -->
+
+                <HBox
+                    width="100%"
+                    height="260px"
+                    justifyContent="SpaceAround"
+                    alignItems="Center"
+                    class="offerBanner3">
+
+                    <VBox alignItems="Center">
+
+                        <Text
+                            text="🛒 BIG BILLION OFFERS 🛒"
+                            class="offerMainText"/>
+
+                        <Text
+                            text="FREE DELIVERY"
+                            class="offerSubText"/>
+
+                        <Text
+                            text="Cashback + Discounts"
+                            class="offerSmallText"/>
+
+                    </VBox>
+
+                    <Image
+                        src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png"
+                        width="180px"
+                        height="180px"/>
+
+                </HBox>
+
+                <!-- BANNER 4 -->
+
+                <HBox
+                    width="100%"
+                    height="260px"
+                    justifyContent="SpaceAround"
+                    alignItems="Center"
+                    class="offerBanner4">
+
+                    <VBox alignItems="Center">
+
+                        <Text
+                            text="💚 HULK SPECIAL SALE 💚"
+                            class="offerMainText"/>
+
+                        <Text
+                            text="MEGA PRICE DROP"
+                            class="offerSubText"/>
+
+                        <Text
+                            text="Smash Your Shopping"
+                            class="offerSmallText"/>
+
+                    </VBox>
+
+                    <Image
+                        src="https://cdn-icons-png.flaticon.com/512/3523/3523063.png"
+                        width="180px"
+                        height="180px"/>
+
+                </HBox>
+
+            </Carousel>
+
+            <!-- PRODUCTS SECTION -->
+
+            <VBox
+                id="productsSection"
+                visible="true">
+
+                <List
+                    id="productList"
+                    items="{/Products}">
+
+                    <items>
+
+                        <CustomListItem
+                            press="onItemPress"
+                            type="Active">
+
+                            <HBox
+                                justifyContent="SpaceBetween"
+                                alignItems="Center"
+                                width="100%">
+
+                                <!-- LEFT -->
+                                <HBox
+                                    width="65%"
+                                    alignItems="Center"
+                                    gap="10px">
+
+                                    <Image 
+                                        src="{
+                                            path: 'ProductID',
+                                            formatter: '.getProductImage'
+                                        }"
+                                        width="60px"
+                                        height="60px"/>
+
+                                    <VBox>
+
+                                        <Text text="{ProductName}" />
+
+                                        <Text text="Price: ${UnitPrice}" />
+
+                                        <Text text="Stock: {UnitsInStock}" />
+
+                                    </VBox>
+
+                                </HBox>
+
+                                <!-- RIGHT BUTTON -->
+                                <Button 
+                                    type="Emphasized"
+                                    text="{
+                                        parts:[{path:'ProductID'}],
+                                        formatter: '.getCartButtonText'
+                                    }"
+                                    press="onAddToCartPress"/>
+
+                            </HBox>
+
+                        </CustomListItem>
+
+                    </items>
+
+                </List>
+
+            </VBox>
+
+            <!-- CART SECTION -->
+
+            <VBox
+                id="cartSection"
+                visible="false"
+                class="sapUiLargeMargin">
+
+                <Title text="Cart Details"/>
+
+                <Text text="Your cart details display here."/>
+
+            </VBox>
+
+            <!-- PROFILE SECTION -->
+
+            <VBox
+                id="profileSection"
+                visible="false"
+                class="sapUiLargeMargin">
+
+                <Title text="Profile Details"/>
+
+                <Text text="Your profile details display here."/>
+
+            </VBox>
+
         </content>
 
-        <!-- FOOTER -->
+        <!-- =========================
+             FOOTER
+        ========================= -->
+
         <footer>
+
             <Bar visible="{= ${cart>/cartItems}.length > 0 }">
 
                 <contentMiddle>
+
                     <Button 
                         type="Emphasized"
                         text="{
@@ -104,10 +451,66 @@
                             formatter:'.getCartSummary'
                         }"
                         press="onGoToCart"/>
+
                 </contentMiddle>
 
             </Bar>
+
         </footer>
+
+        <!-- =========================
+             LOGIN DIALOG
+        ========================= -->
+
+<dependents>
+
+    <Dialog
+        id="loginDialog"
+        title="User Login">
+
+        <content>
+
+            <VBox class="sapUiMediumMargin">
+
+                <Label text="Name"/>
+
+                <Input
+                    id="nameInput"
+                    placeholder="Enter Name"/>
+
+                <Label
+                    text="Mobile Number"
+                    class="sapUiSmallMarginTop"/>
+
+                <Input
+                    id="mobileInput"
+                    placeholder="Enter Mobile Number"
+                    type="Tel"/>
+
+            </VBox>
+
+        </content>
+
+        <beginButton>
+
+            <Button
+                text="Login"
+                type="Emphasized"
+                press="onLogin"/>
+
+        </beginButton>
+
+        <endButton>
+
+            <Button
+                text="Cancel"
+                press="onCloseLoginDialog"/>
+
+        </endButton>
+
+    </Dialog>
+
+</dependents>
 
     </Page>
 
